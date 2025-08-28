@@ -75,6 +75,84 @@ To keep your application available, you need to maintain high availability and r
 ---
 
 ## Ways to Interact with the AWS API
+Every action you make in AWS is an API call
+
 - **AWS Management Console**  
 - **AWS Command Line Interface (CLI)**  
 - **AWS SDKs (Software Development Kits)**
+
+---
+## Authentication vs Authorization
+
+- **Authentication**: Verifies *who you are*.  
+  - Example: logging in with email & password, tokens, or biometrics.  
+  - Answers: *“Are you who you say you are?”*
+
+- **Authorization**: Defines *what you can do*.  
+  - Example: permissions to read, edit, delete, or create resources in AWS.  
+  - Answers: *“What actions can you perform?”*
+
+## AWS Root User
+
+- The **root user** is the first identity created with an AWS account.  
+- It uses the account’s email and password to sign in.  
+- Has **full access** to all AWS services and resources.
+---
+# IAM (Identity and Access Management)
+
+- **IAM** is a web service for managing access to your AWS account and resources.  
+- Provides a centralized view of **who/what can sign in (authentication)** and **what they can do (authorization)**.  
+- Allows sharing access without exposing root credentials.  
+- Supports **granular permissions** (e.g., giving a user read-only access to specific resources).  
+
+An IAM user represents a person or service that interacts with AWS
+
+
+## IAM Groups
+
+- An **IAM group** is a collection of IAM users.  
+- All users in a group **inherit the group’s permissions**.  
+- Best practice for organizing users by role (e.g., *developers*, *security*, *admins*).  
+- Makes it easy to add/remove/change user permissions at scale.  
+- Key points:  
+  - Groups can have many users.  
+  - Users can belong to many groups.  
+  - Groups cannot contain other groups.  
+- New IAM identities start with **no permissions by default**. Access is granted using **IAM policies**.  
+
+
+## IAM Policies
+
+- **IAM policies** define permissions for users, groups, and roles.  
+- When a request is made, AWS checks all attached policies to decide if it is **allowed or denied**.  
+- Example: a developer in the *developers group* inherits group policies + their own user policies.  
+
+---
+# IAM BEST PRACTICES
+
+## Lock Down the AWS Root User
+- Do **not** share root credentials.  
+- Delete root user access keys.  
+- Enable **MFA** on the root account.  
+
+## Principle of Least Privilege
+- Grant only the **minimum permissions** needed for a task.  
+- Add more permissions only when necessary.  
+
+## Use IAM Appropriately
+- IAM secures access to **AWS resources** within one account.  
+- Not for website user sign-in/sign-up or OS/network security.  
+
+## Use IAM Roles When Possible
+- Roles provide **temporary credentials** (15 min – 36 hrs).  
+- Easier to manage than long-term user credentials.  
+
+## Consider Using an Identity Provider (IdP)
+- Centralizes identity management for organizations.  
+- Supports federation via AWS IAM Identity Center or third-party IdPs.  
+- Example: manage a single employee identity across multiple AWS accounts.  
+
+## Consider AWS IAM Identity Center
+- Provides a **single sign-on (SSO) portal** for multiple AWS accounts and apps.  
+- Syncs users/groups from third-party IdPs.  
+- Separates identity management from AWS for stronger security.  
